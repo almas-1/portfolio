@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб-Әзірлеуші | Жеке Портфолио</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── 1. НЕГІЗГІ ОРНАТУЛАР ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;      
+            --bg-card: #131c2e;      
+            --accent: #00ffcc;       
+            --accent-hover: #00d4aa; 
+            --text-main: #f1f5f9;    
+            --text-muted: #94a3b8;   
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* ── 2. НАВИГАЦИЯ (МӘЗІР) ── */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: rgba(10, 14, 23, 0.85);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: var(--accent); }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; list-style: none; }
+        .nav-links li { margin-left: 35px; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: 0.3s ease; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* ТІЛ АУЫСТЫРУ БАТЫРМАЛАРЫНЫҢ СТИЛІ */
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-main);
+        }
+
+        .lang-btn.active {
+            background-color: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        /* ── 3. БАСТЫ БЕТ (HERO) ── */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 8%;
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .hero-content { max-width: 800px; }
+        .hero-content h1 { font-size: 54px; font-weight: 800; line-height: 1.2; margin-bottom: 25px; }
+        .highlight { color: var(--accent); }
+        .hero-content p { font-size: 17px; color: var(--text-muted); margin-bottom: 35px; line-height: 1.7; }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--bg-dark);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 6px 25px rgba(0, 255, 204, 0.4); }
+
+        /* ── 4. МЕН ТУРАЛЫ БӨЛІМІ ── */
+        .about-section { padding: 100px 8%; background-color: #0c1322; }
+        .about-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
+        
+        .about-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            height: 450px;
+            border-radius: 24px;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.25), 
+                        0 0 50px rgba(0, 255, 204, 0.15);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .about-image-wrapper:hover {
+            box-shadow: 0 0 35px rgba(0, 255, 204, 0.45), 
+                        0 0 70px rgba(0, 255, 204, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .about-img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; border: none; }
+        .about-text h2 { font-size: 36px; font-weight: 800; margin-bottom: 25px; }
+        .about-text p { color: var(--text-muted); font-size: 16px; line-height: 1.8; margin-bottom: 25px; }
+        
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .info-card { background-color: var(--bg-dark); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent); }
+        .info-card h4 { font-size: 15px; margin-bottom: 5px; font-weight: 700; }
+        .info-card p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+        /* ── 5. ЖОБАЛАР БӨЛІМІ ── */
+        .projects-section { padding: 100px 8%; background-color: #080c14; }
+        .section-title { font-size: 36px; text-align: center; margin-bottom: 12px; font-weight: 800; }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 60px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1100px; margin: 0 auto; }
+        .project-card { background-color: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.03); transition: 0.3s; }
+        .project-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .project-img { height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        .bg-atlant { background: linear-gradient(135deg, #e63329, #1c1c1c); }
+        .bg-altyndop { background: linear-gradient(135deg, #0b0c10, #ccff00); }
+        .bg-altyndop i, .bg-altyndop span { color: #0b0c10 !important; }
+        .project-icon { font-size: 50px; margin-bottom: 10px; }
+        .project-tag { background: rgba(255, 255, 255, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .project-info { padding: 25px; }
+        .project-info h3 { font-size: 22px; margin-bottom: 10px; }
+        .project-info p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 20px; height: 70px; }
+        .project-btn { display: inline-block; color: var(--accent); border: 2px solid var(--accent); padding: 8px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        .project-btn:hover { background-color: var(--accent); color: var(--bg-dark); }
+
+        /* ── 6. БАҒАЛАР МЕН ТАРИФТЕР БӨЛІМІ ── */
+        .pricing-section { padding: 100px 8%; background-color: #0c1322; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
+        .pricing-card { background-color: var(--bg-dark); border-radius: 16px; padding: 40px 30px; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; transition: 0.3s; position: relative; }
+        .pricing-card.popular { border-color: var(--accent); box-shadow: 0 10px 30px rgba(0, 255, 204, 0.1); }
+        .popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background-color: var(--accent); color: var(--bg-dark); padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .pricing-card h3 { font-size: 22px; margin-bottom: 15px; }
+        .price { font-size: 32px; font-weight: 800; color: var(--accent); margin-bottom: 25px; }
+        .price span { font-size: 16px; color: var(--text-muted); font-weight: 400; }
+        .pricing-features { list-style: none; text-align: left; margin-bottom: 35px; }
+        .pricing-features li { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .pricing-features li i { color: var(--accent); }
+        .pricing-btn { display: block; background-color: #1e293b; color: white; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.3s; }
+        .pricing-card.popular .pricing-btn { background-color: var(--accent); color: var(--bg-dark); }
+        .pricing-btn:hover { transform: translateY(-2px); }
+
+        /* ── 7. ПІКІРЛЕРДІ АШАТЫН БАТЫРМА БӨЛІМІ ── */
+        .reviews-trigger-section { padding: 60px 8%; background-color: #080c14; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.02); }
+        .btn-reviews { display: inline-flex; align-items: center; gap: 12px; background-color: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 16px 40px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s ease; }
+        .btn-reviews:hover { background-color: var(--accent); color: var(--bg-dark); box-shadow: 0 0 25px rgba(0, 255, 204, 0.3); }
+
+        /* ── 8. МОДАЛЬДІ ТЕРЕЗЕ СТИЛЬДЕРІ ── */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(6, 10, 18, 0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; backdrop-filter: blur(8px); }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background-color: var(--bg-card); width: 90%; max-width: 750px; max-height: 85vh; border-radius: 20px; padding: 40px; overflow-y: auto; position: relative; border: 1px solid rgba(0, 255, 204, 0.1); transform: translateY(-30px); transition: transform 0.4s ease; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close { position: absolute; top: 20px; right: 25px; font-size: 30px; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
+        .modal-close:hover { color: #ff4a4a; }
+        .modal-title { font-size: 28px; font-weight: 800; margin-bottom: 25px; text-align: center; color: var(--text-main); }
+        
+        .review-form { background-color: var(--bg-dark); padding: 25px; border-radius: 14px; margin-bottom: 35px; border: 1px dashed rgba(0, 255, 204, 0.3); }
+        .form-subtitle { font-size: 16px; font-weight: 700; margin-bottom: 15px; color: var(--accent); }
+        .form-group { margin-bottom: 15px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .form-input { width: 100%; background-color: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); padding: 12px 15px; color: white; border-radius: 8px; font-size: 14px; transition: 0.3s; }
+        .form-input:focus { border-color: var(--accent); outline: none; }
+        
+        .rating-select { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-muted); }
+        .stars-radio { display: flex; flex-direction: row-reverse; gap: 5px; }
+        .stars-radio input { display: none; }
+        .stars-radio label { font-size: 20px; color: #334155; cursor: pointer; transition: 0.2s; }
+        .stars-radio input:checked ~ label, .stars-radio label:hover, .stars-radio label:hover ~ label { color: #ffbb00; }
+
+        .btn-submit-review { background-color: var(--accent); color: var(--bg-dark); border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 10px; }
+        .btn-submit-review:hover { background-color: var(--accent-hover); transform: translateY(-1px); }
+
+        .reviews-list { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px; }
+        .review-item { position: relative; background-color: var(--bg-dark); padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.02); animation: fadeIn 0.5s ease; }
+        
+        .delete-review-btn { display: none; position: absolute; bottom: 20px; right: 25px; background: rgba(255, 74, 74, 0.1); color: #ff4a4a; border: 1px solid rgba(255, 74, 74, 0.2); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .delete-review-btn:hover { background: #ff4a4a; color: white; }
+        
+        body.admin-mode .delete-review-btn { display: block !important; visibility: visible !important; opacity: 1 !important; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .client-name { font-weight: 700; font-size: 16px; color: var(--text-main); }
+        .client-project { font-size: 13px; color: var(--accent); font-weight: 500; }
+        .stars { color: #ffbb00; font-size: 14px; }
+        .review-text { color: var(--text-muted); font-size: 14px; line-height: 1.6; font-style: italic; padding-right: 60px; }
+
+        /* ── 9. БАЙЛАНЫС ── */
+        .contact-section { padding: 100px 8%; text-align: center; background-color: #0a0e17; }
+        .contact-buttons { display: flex; justify-content: center; gap: 25px; margin-top: 40px; flex-wrap: wrap; }
+        .contact-btn { display: flex; align-items: center; gap: 12px; padding: 16px 35px; border-radius: 10px; text-decoration: none; color: white; font-weight: 700; transition: 0.3s; }
+        .contact-btn:hover { transform: translateY(-4px); }
+        .whatsapp { background: linear-gradient(135deg, #25d366, #1ebd57); }
+        .telegram { background: linear-gradient(135deg, #0088cc, #0077b5); }
+
+        .admin-trigger { color: #232d42; cursor: pointer; transition: 0.3s; font-size: 12px; margin-top: 10px; display: inline-block; }
+        .admin-trigger:hover { color: var(--accent); }
+
+        footer { text-align: center; padding: 35px; color: #475569; font-size: 14px; border-top: 1px solid rgba(255, 255, 255, 0.03); background-color: #060a10; }
+
+        /* ── 10. ADMIN PANEL ── */
+        .admin-panel-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .admin-panel-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .admin-panel {
+            position: fixed;
+            top: 0; left: -420px;
+            width: 420px;
+            height: 100vh;
+            background: #0d1526;
+            border-right: 1px solid rgba(0,255,204,0.15);
+            z-index: 3100;
+            overflow-y: auto;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
+            box-shadow: 5px 0 40px rgba(0,0,0,0.6);
+        }
+        .admin-panel.open {
+            left: 0;
+        }
+        .admin-panel-header {
+            background: linear-gradient(135deg, #0a1628, #131c2e);
+            padding: 30px 28px 25px;
+            border-bottom: 1px solid rgba(0,255,204,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .admin-panel-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .admin-panel-header p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .admin-close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s;
+        }
+        .admin-close-btn:hover { background: rgba(255,74,74,0.15); color: #ff4a4a; border-color: rgba(255,74,74,0.3); }
+
+        /* LOGIN SCREEN */
+        .admin-login-screen {
+            padding: 40px 28px;
+        }
+        .admin-login-screen .lock-icon {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .admin-login-screen .lock-icon i {
+            font-size: 50px;
+            color: var(--accent);
+            opacity: 0.7;
+        }
+        .admin-login-screen h3 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .admin-login-screen p {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        .admin-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px 16px;
+            color: white;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        .admin-input:focus { border-color: var(--accent); outline: none; background: rgba(0,255,204,0.05); }
+        .admin-btn-main {
+            width: 100%;
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 0.5px;
+        }
+        .admin-btn-main:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,255,204,0.3); }
+        .admin-error-msg {
+            color: #ff4a4a;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* DASHBOARD SCREEN */
+        .admin-dashboard {
+            display: none;
+        }
+        .admin-dashboard.visible {
+            display: block;
+        }
+        .admin-section {
+            padding: 24px 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .admin-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-field-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+        .admin-field {
+            margin-bottom: 14px;
+        }
+        .admin-add-btn {
+            width: 100%;
+            background: rgba(0,255,204,0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0,255,204,0.3);
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .admin-add-btn:hover { background: rgba(0,255,204,0.2); transform: translateY(-2px); }
+        .admin-add-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* PROJECT LIST IN ADMIN */
+        .admin-project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .admin-project-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: 0.2s;
+        }
+        .admin-project-item:hover { border-color: rgba(255,74,74,0.2); }
+        .admin-project-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: var(--bg-dark);
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .admin-project-thumb-placeholder {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1a2540, #0d1526);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .admin-project-info { flex: 1; min-width: 0; }
+        .admin-project-info strong { font-size: 13px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .admin-project-info span { font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .admin-delete-btn {
+            background: rgba(255,74,74,0.08);
+            border: 1px solid rgba(255,74,74,0.2);
+            color: #ff4a4a;
+            padding: 7px 10px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .admin-delete-btn:hover { background: rgba(255,74,74,0.2); }
+        .admin-empty-msg {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            padding: 20px 0;
+        }
+
+        .admin-success-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 9999;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            white-space: nowrap;
+        }
+        .admin-success-toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* IMAGE UPLOAD */
+        .image-upload-label { display: block; cursor: pointer; }
+        .image-upload-area {
+            border: 2px dashed rgba(0,255,204,0.25);
+            border-radius: 10px;
+            padding: 24px 16px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,255,204,0.02);
+        }
+        .image-upload-area:hover, .image-upload-area.drag-over {
+            border-color: var(--accent);
+            background: rgba(0,255,204,0.06);
+            color: var(--text-main);
+        }
+        .image-upload-area i { font-size: 28px; color: var(--accent); opacity: 0.6; }
+        .image-upload-area small { font-size: 11px; color: #475569; }
+        .image-preview-thumb {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgba(0,255,204,0.3);
+            margin-top: 0;
+        }
+        .upload-progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .upload-progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        .upload-progress-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        /* IMAGE UPLOAD */
+        .admin-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 52px;
+            height: 52px;
+            background: var(--bg-card);
+            border: 1px solid rgba(0,255,204,0.2);
+            border-radius: 14px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 500;
+            transition: 0.3s;
+            color: var(--accent);
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .admin-float-btn:hover { background: rgba(0,255,204,0.1); transform: translateY(-3px); }
+        body.admin-mode .admin-float-btn { display: flex; }
+
+        /* ── 11. МОБИЛЬДІ ТЕЛЕФОНДАРҒА АРНАЛҒАН ЖАУАП КЕСТЕСІ ── */
+        @media (max-width: 900px) {
+            .navbar { padding: 15px 5%; }
+            .nav-right { gap: 15px; }
+            .hero-content h1 { font-size: 36px; }
+            .about-container { grid-template-columns: 1fr; justify-items: center; gap: 40px; text-align: center; }
+            .about-image-wrapper { max-width: 320px; height: 380px; }
+            .info-grid { grid-template-columns: 1fr !important; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links { display: none; } /* Телефонда сілтемелер жасырынады, бірақ Тілдер батырмасы қалады */
+            .pricing-grid { grid-template-columns: 1fr; gap: 30px; }
+            .modal-content { padding: 30px 20px; }
+            .delete-review-btn { position: static; margin-top: 15px; display: block; width: 100%; text-align: center; }
+            .review-text { padding-right: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 32px; }
+            .hero-content p { font-size: 15px; }
+            .btn-primary { width: 100%; text-align: center; }
+            .contact-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">WEB.DEV</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#about" data-lang="nav_about">Мен туралы</a></li>
+                <li><a href="#projects" data-lang="nav_projects">Жобалар</a></li>
+                <li><a href="#pricing" data-lang="nav_pricing">Бағалар</a></li>
+                <li><a href="#contacts" data-lang="nav_contacts">Байланыс</a></li>
+            </ul>
+            
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="switchLang('kk')">KZ</button>
+                <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+                <button class="lang-btn" onclick="switchLang('en')">EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section" id="home">
+        <div class="hero-content">
+            <h1 data-lang="hero_title">Сәлем, мен <span class="highlight">Веб-Әзірлеушімін</span></h1>
+            <p data-lang="hero_desc">Бизнеске арналған қауіпсіз, жылдам веб-сайттар жасаймын. Осы салада 1 жылдық белсенді тәжірибем бар. Таза кодпен (HTML/CSS/JS) де, бизнеске өте ыңғайлы Tilda платформасында да кез келген жобаны сапалы құрастырамын.</p>
+            
+            <a href="https://wa.me/77052342025?text=Сәлеметсіз%20бе!" target="_blank" class="btn-primary" id="consultBtn">
+                <span data-lang="hero_btn">Тегін кеңес алу</span> <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
+    </header>
+
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-image-wrapper">
+                <img src="менің.jpg" alt="Маманның суреті" class="about-img" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #131c2e, #0a0e17)'; this.parentElement.innerHTML += '<div style=\'display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--accent);gap:12px\'><i class=\'fa-solid fa-user\' style=\'font-size:80px;opacity:0.3\'></i><p style=\'font-size:13px;color:var(--text-muted);text-align:center;padding:0 20px\'>photo.jpg файлын сайт қалтасына қосыңыз</p></div>'">
+            </div>
+
+            <div class="about-text">
+                <h2 data-lang="about_title">Мен туралы</h2>
+                <p data-lang="about_desc">Мен веб-әзірлеу саласында 1 жылдан бері кәсіби түрде жұмыс істеп келемін. Осы уақыт ішінде түрлі бағыттағы бизнес-сайттарды сәтті іске қосып, клиенттердің сенімінен шықтым.</p>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <i class="fa-solid fa-cubes" style="color: var(--accent); font-size: 20px; margin-bottom: 10px;"></i>
+                        <h4 data-lang="card1_title">Tilda Платформасы</h4>
+                        <p data-lang="card1_desc">Zero-Block дизайн, дайын тауарлар базасы, ыңғайлы админка.</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fa-solid fa-code" style="color: var(--accent); font-size: 20px; margin-bottom: 10px;"></i>
+                        <h4 data-lang="card2_title">Таза Код (Frontend)</h4>
+                        <p data-lang="card2_desc">HTML5, CSS3, JavaScript. Ешқандай артық жүктемесіз жылдам жұмыс.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section" id="projects">
+        <h2 class="section-title" data-lang="proj_title">Менің Жобаларым</h2>
+        <p class="section-subtitle" data-lang="proj_sub">Жақында жасалған және қолданысқа толық дайын веб-сайттар</p>
+    
+        <!-- Ескі екі карточканы өшірдік, енді осында автоматты түрде жобалар шығады -->
+        <div class="projects-grid" id="projects-container">
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <h2 class="section-title" data-lang="price_title">Қызмет көрсету бағалары</h2>
+        <p class="section-subtitle" data-lang="price_sub">Сіздің бизнесіңізге арналған тиімді тарифтер</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Tilda Landing</h3>
+                <div class="price">10 000 ₸ <span data-lang="price_from">/бастап</span></div>
+                <ul class="pricing-features">
+                    <li data-lang="f1_1"><i class="fa-solid fa-check"></i> Бір беттік сайт (Landing Page)</li>
+                    <li data-lang="f1_2"><i class="fa-solid fa-check"></i> Өзгерістер енгізуге ыңғайлы админка</li>
+                    <li data-lang="f1_3"><i class="fa-solid fa-check"></i> Мобильді телефондарға бейімдеу</li>
+                    <li data-lang="f1_4"><i class="fa-solid fa-check"></i> WhatsApp / Telegram хабарлама орнату</li>
+                    <li data-lang="f1_5"><i class="fa-solid fa-check"></i> Жасалу мерзімі: 3-5 күн</li>
+                </ul>
+                <a href="https://wa.me/77052342025?text=Tilda%20Landing" target="_blank" class="pricing-btn" data-lang="order_btn">Тапсырыс беру</a>
+            </div>
+
+            <div class="pricing-card popular">
+                <div class="popular-badge" data-lang="popular_badge">Танымал</div>
+                <h3>Премиум Код Landing</h3>
+                <div class="price">20 000 ₸ <span data-lang="price_from">/бастап</span></div>
+                <ul class="pricing-features">
+                    <li data-lang="f2_1"><i class="fa-solid fa-check"></i> Нөлден бастап таза кодпен жазу</li>
+                    <li data-lang="f2_2"><i class="fa-solid fa-check"></i> Өте жоғары жүктелу жылдамдығы</li>
+                    <li data-lang="f2_3"><i class="fa-solid fa-check"></i> Кез келген ерекше дизайн мен анимация</li>
+                    <li data-lang="f2_4"><i class="fa-solid fa-check"></i> Смартфондарға 100% бейімділік</li>
+                    <li data-lang="f2_5"><i class="fa-solid fa-check"></i> Жасалу мерзімі: 5-7 күн</li>
+                </ul>
+                <a href="https://wa.me/77052342025?text=Premium%20Code" target="_blank" class="pricing-btn" data-lang="order_btn">Тапсырыс беру</a>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Интернет-Дүкен</h3>
+                <div class="price">30 000 ₸ <span data-lang="price_from">/бастап</span></div>
+                <ul class="pricing-features">
+                    <li data-lang="f3_1"><i class="fa-solid fa-check"></i> Көп беттік толыққанды дүкен</li>
+                    <li data-lang="f3_2"><i class="fa-solid fa-check"></i> Себет (Корзина) және тауар каталогы</li>
+                    <li data-lang="f3_3"><i class="fa-solid fa-check"></i> Kaspi Pay немесе WhatsApp-қа тапсырыс</li>
+                    <li data-lang="f3_4"><i class="fa-solid fa-check"></i> Орташа деңгейдегі өнім базасы</li>
+                    <li data-lang="f3_5"><i class="fa-solid fa-check"></i> Жасалу мерзімі: 7-12 күн</li>
+                </ul>
+                <a href="https://wa.me/77052342025?text=E-commerce" target="_blank" class="pricing-btn" data-lang="order_btn">Тапсырыс беру</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews-trigger-section">
+        <button class="btn-reviews" id="openReviewsBtn">
+            <i class="fa-solid fa-comments"></i> <span data-lang="review_trigger_btn">Пікірлерді оқу және қалдыру</span>
+        </button>
+    </section>
+
+    <div class="modal-overlay" id="reviewsModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeReviewsBtn">&times;</span>
+            <h3 class="modal-title" data-lang="modal_title">Клиенттердің пікірлері</h3>
+            
+            <div class="review-form">
+                <p class="form-subtitle"><i class="fa-solid fa-pen-to-square"></i> <span data-lang="leave_review">Өз пікіріңізді қалдырыңыз</span></p>
+                <form id="addReviewForm">
+                    <div class="form-row">
+                        <input type="text" id="reviewerName" class="form-input" placeholder="Есіміңіз" required>
+                        <input type="text" id="reviewerProject" class="form-input" placeholder="Жоба атауы" required>
+                    </div>
+                    <div class="form-group rating-select">
+                        <span data-lang="your_rating">Бағаңыз:</span>
+                        <div class="stars-radio">
+                            <input type="radio" id="star5" name="rating" value="5" checked><label for="star5"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1"><i class="fa-solid fa-star"></i></label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <textarea id="reviewerText" class="form-input" rows="3" placeholder="Пікіріңізді осында жазыңыз..." style="resize: none;" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-review" data-lang="submit_review_btn">Пікірді жіберу</button>
+                </form>
+            </div>
+
+            <div class="reviews-list" id="reviewsContainer"></div>
+        </div>
+    </div>
+
+    <section class="contact-section" id="contacts">
+        <h2 class="section-title" data-lang="contact_title">Жобаңызды бірге бастайық</h2>
+        <p class="section-subtitle" data-lang="contact_sub">Тегін кеңес алу үшін жазыңыз</p>
+        
+        <div class="contact-buttons">
+            <a href="https://wa.me/77052342025?text=Сәлеметсіз%20бе!" target="_blank" class="contact-btn whatsapp">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://t.me/simple_10" target="_blank" class="contact-btn telegram">
+                <i class="fa-brands fa-telegram"></i> Telegram
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p><span data-lang="footer_text">&copy; 2026 Барлық құқықтар қорғалған. Жеке портфолио.</span></p>
+        <span class="admin-trigger" onclick="activateAdminMode()"><i class="fa-solid fa-key"></i> <span data-lang="admin_login">Админ кіру</span></span>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+    <script>
+        // ── ТІЛДЕР БАЗАСЫ (ҮШ ТІЛДЕГІ МӘТІНДЕР) ──
+        const translations = {
+            kk: {
+                nav_about: "Men туралы", nav_projects: "Жобалар", nav_pricing: "Бағалар", nav_contacts: "Байланыс",
+                hero_title: 'Сәлем, мен <span class="highlight">Веб-Әзірлеушімін</span>',
+                hero_desc: "Бизнеске арналған қауіпсіз, жылдам веб-сайттар жасаймын. Осы салада 1 жылдық белсенді тәжірибем бар. Таза кодпен (HTML/CSS/JS) де, бизнеске өте ыңғайлы Tilda платформасында да кез келген жобаны сапалы құрастырамын.",
+                hero_btn: "Тегін кеңес алу",
+                about_title: "Мен туралы",
+                about_desc: "Мен веб-әзірлеу саласында 1 жылдан бері кәсіби түрде жұмыс істеп келемін. Осы уақыт ішінде түрлі бағыттағы бизнес-сайттарды сәтті іске қосып, клиенттердің сенімінен шықтым.",
+                card1_title: "Tilda Платформасы", card1_desc: "Zero-Block дизайн, дайын тауарлар базасы, ыңғайлы админка.",
+                card2_title: "Таза Код (Frontend)", card2_desc: "HTML5, CSS3, JavaScript. Ешқандай артық жүктемесіз жылдам жұмыс.",
+                proj_title: "Менің Жобаларым", proj_sub: "Жақында жасалған және қолданысқа толық дайын веб-сайттар",
+                p1_desc: "Спорттық киімдер мен жабдықтар дүкенінің премиум дизайндағы сайты. Мобильді нұсқаға толық бейімделген.",
+                p2_desc: "Футбол тауарларына арналған заманауи интернет-дүкен. Себет (Корзина) және WhatsApp-қа тапсырыс жіберу жүйесі бар.",
+                open_site: "Сайтты ашу",
+                price_title: "Қызмет көрсету бағалары", price_sub: "Сіздің бизнесіңізге арналған тиімді тарифтер", price_from: "/бастап",
+                f1_1: "<i class='fa-solid fa-check'></i> Бір беттік сайт (Landing Page)", f1_2: "<i class='fa-solid fa-check'></i> Өзгерістер енгізуге ыңғайлы админка", f1_3: "<i class='fa-solid fa-check'></i> Мобильді телефондарға бейімдеу", f1_4: "<i class='fa-solid fa-check'></i> WhatsApp / Telegram хабарлама орнату", f1_5: "<i class='fa-solid fa-check'></i> Жасалу мерзімі: 3-5 күн",
+                f2_1: "<i class='fa-solid fa-check'></i> Нөлден бастап таза кодпен жазу", f2_2: "<i class='fa-solid fa-check'></i> Өте жоғары жүктелу жылдамдығы", f2_3: "<i class='fa-solid fa-check'></i> Кез келген ерекше дизайн мен анимация", f2_4: "<i class='fa-solid fa-check'></i> Смартфондарға 100% бейімділік", f2_5: "<i class='fa-solid fa-check'></i> Жасалу мерзімі: 5-7 күн",
+                f3_1: "<i class='fa-solid fa-check'></i> Көп беттік толыққанды дүкен", f3_2: "<i class='fa-solid fa-check'></i> Себет (Корзина) және тауар каталогы", f3_3: "<i class='fa-solid fa-check'></i> Kaspi Pay немесе WhatsApp-қа тапсырыс", f3_4: "<i class='fa-solid fa-check'></i> Орташа деңгейдегі өнім базасы", f3_5: "<i class='fa-solid fa-check'></i> Жасалу мерзімі: 7-12 күн",
+                popular_badge: "Танымал", order_btn: "Тапсырыс беру", review_trigger_btn: "Пікірлерді оқу және қалдыру",
+                modal_title: "Клиенттердің пікірлері", leave_review: "Өз пікіріңізді қалдырыңыз", your_rating: "Бағаңыз:", submit_review_btn: "Пікірді жіберу",
+                contact_title: "Жобаңызды бірге бастайық", contact_sub: "Тегін кеңес алу үшін жазыңыз",
+                footer_text: "&copy; 2026 Барлық құқықтар қорғалған. Жеке портфолио.", admin_login: "Админ кіру",
+                placeholder_name: "Есіміңіз", placeholder_project: "Жоба атауы", placeholder_text: "Пікіріңізді осында жазыңыз...",
+                alert_review_success: "Пікір сәтті қосылды!", alert_delete_confirm: "Бұл пікірді базадан біржола өшіруді растайсыз ба?", alert_deleted: "Өшірілді.",
+                alert_admin_prompt: "Администратор құпия кілтін енгізіңіз:", alert_admin_success: "Администратор режимі қосылған! Пікірлерді өшіре аласыз.", alert_admin_fail: "Қате пароль!"
+            },
+            ru: {
+                nav_about: "Обо мне", nav_projects: "Проекты", nav_pricing: "Цены", nav_contacts: "Контакты",
+                hero_title: 'Привет, я <span class="highlight">Веб-Разработчик</span>',
+                hero_desc: "Создаю безопасные и быстрые веб-сайты для бизнеса. Имею 1 год активного опыта в этой сфере. Качественно собираю проекты как на чистом коде (HTML/CSS/JS), так и на удобной платформе Tilda.",
+                hero_btn: "Получить консультацию",
+                about_title: "Обо мне",
+                about_desc: "Я профессионально работаю в сфере веб-разработки уже 1 год. За это время успешно запустил бизнес-сайты различных направлений и завоевал доверие клиентов.",
+                card1_title: "Платформа Tilda", card1_desc: "Дизайн в Zero-Block, готовая база товаров, удобная админ-панель.",
+                card2_title: "Чистый код (Frontend)", card2_desc: "HTML5, CSS3, JavaScript. Быстрая работа без лишней нагрузки.",
+                proj_title: "Мои Проекты", proj_sub: "Недавно созданные и полностью готовые к работе веб-сайты",
+                p1_desc: "Сайт премиум-дизайна для магазина спортивной одежды и экипировки. Полностью адаптирован под мобильную версию.",
+                p2_desc: "Современный интернет-магазин футбольных товаров. Есть корзина и система отправки заказов в WhatsApp.",
+                open_site: "Открыть сайт",
+                price_title: "Цены на услуги", price_sub: "Выгодные тарифы для вашего бизнеса", price_from: "/от",
+                f1_1: "<i class='fa-solid fa-check'></i> Одностраничный сайт (Landing Page)", f1_2: "<i class='fa-solid fa-check'></i> Удобная админка для внесения изменений", f1_3: "<i class='fa-solid fa-check'></i> Адаптация под мобильные телефоны", f1_4: "<i class='fa-solid fa-check'></i> Настройка уведомлений в WhatsApp/Telegram", f1_5: "<i class='fa-solid fa-check'></i> Срок разработки: 3-5 дней",
+                f2_1: "<i class='fa-solid fa-check'></i> Написание кода с нуля", f2_2: "<i class='fa-solid fa-check'></i> Очень высокая скорость загрузки", f2_3: "<i class='fa-solid fa-check'></i> Любой уникальный дизайн и анимация", f2_4: "<i class='fa-solid fa-check'></i> 100% адаптивность под смартфоны", f2_5: "<i class='fa-solid fa-check'></i> Срок разработки: 5-7 дней",
+                f3_1: "<i class='fa-solid fa-check'></i> Полноценный многостраничный магазин", f3_2: "<i class='fa-solid fa-check'></i> Корзина и каталог товаров", f3_3: "<i class='fa-solid fa-check'></i> Интеграция Kaspi Pay или WhatsApp", f3_4: "<i class='fa-solid fa-check'></i> Средняя база данных товаров", f3_5: "<i class='fa-solid fa-check'></i> Срок разработки: 7-12 дней",
+                popular_badge: "Популярный", order_btn: "Заказать", review_trigger_btn: "Читать и оставить отзывы",
+                modal_title: "Отзывы клиентов", leave_review: "Оставьте свой отзыв", your_rating: "Ваша оценка:", submit_review_btn: "Отправить отзыв",
+                contact_title: "Начнем ваш проект вместе", contact_sub: "Напишите для бесплатной консультации",
+                footer_text: "&copy; 2026 Все права защищены. Личное портфолио.", admin_login: "Админ вход",
+                placeholder_name: "Ваше имя", placeholder_project: "Название проекта", placeholder_text: "Напишите ваш отзыв здесь...",
+                alert_review_success: "Отзыв успешно добавлен!", alert_delete_confirm: "Вы уверены, что хотите навсегда удалить этот отзыв?", alert_deleted: "Удалено.",
+                alert_admin_prompt: "Введите секретный ключ администратора:", alert_admin_success: "Режим администратора включен! Вы можете удалять отзывы.", alert_admin_fail: "Неверный пароль!"
+            },
+            en: {
+                nav_about: "About", nav_projects: "Projects", nav_pricing: "Pricing", nav_contacts: "Contact",
+                hero_title: 'Hi, I am a <span class="highlight">Web Developer</span>',
+                hero_desc: "I build secure, fast websites for businesses. I have 1 year of active experience in this field. I efficiently build projects using clean code (HTML/CSS/JS) as well as the business-friendly Tilda platform.",
+                hero_btn: "Get Free Consultation",
+                about_title: "About Me",
+                about_desc: "I have been working professionally in web development for 1 year. During this time, I have successfully launched business websites in various industries and earned clients' trust.",
+                card1_title: "Tilda Platform", card1_desc: "Zero-Block design, ready-made product catalog, user-friendly admin panel.",
+                card2_title: "Clean Code (Frontend)", card2_desc: "HTML5, CSS3, JavaScript. Fast performance without extra load.",
+                proj_title: "My Projects", proj_sub: "Recently developed and fully production-ready websites",
+                p1_desc: "Premium design website for a sports clothing and equipment store. Fully responsive and mobile friendly.",
+                p2_desc: "Modern e-commerce store for football goods. Features a shopping cart and WhatsApp order submission system.",
+                open_site: "Open website",
+                price_title: "Service Pricing", price_sub: "Flexible and profitable plans for your business", price_from: "/from",
+                f1_1: "<i class='fa-solid fa-check'></i> One-page website (Landing Page)", f1_2: "<i class='fa-solid fa-check'></i> Easy-to-use admin panel for updates", f1_3: "<i class='fa-solid fa-check'></i> Full mobile optimization", f1_4: "<i class='fa-solid fa-check'></i> WhatsApp / Telegram notification setup", f1_5: "<i class='fa-solid fa-check'></i> Delivery time: 3-5 days",
+                f2_1: "<i class='fa-solid fa-check'></i> Writing clean code from scratch", f2_2: "<i class='fa-solid fa-check'></i> Extremely fast loading speed", f2_3: "<i class='fa-solid fa-check'></i> Any custom design and complex animation", f2_4: "<i class='fa-solid fa-check'></i> 100% responsiveness on all smartphones", f2_5: "<i class='fa-solid fa-check'></i> Delivery time: 5-7 days",
+                f3_1: "<i class='fa-solid fa-check'></i> Full multi-page e-commerce store", f3_2: "<i class='fa-solid fa-check'></i> Shopping cart and product catalog", f3_3: "<i class='fa-solid fa-check'></i> Kaspi Pay or WhatsApp order integration", f3_4: "<i class='fa-solid fa-check'></i> Medium-sized product database setup", f3_5: "<i class='fa-solid fa-check'></i> Delivery time: 7-12 days",
+                popular_badge: "Popular", order_btn: "Order Now", review_trigger_btn: "Read & Leave Reviews",
+                modal_title: "Client Reviews", leave_review: "Leave your review", your_rating: "Your Rating:", submit_review_btn: "Submit Review",
+                contact_title: "Let's Start Your Project Together", contact_sub: "Write us for a free consultation",
+                footer_text: "&copy; 2026 All rights reserved. Personal portfolio.", admin_login: "Admin Login",
+                placeholder_name: "Your Name", placeholder_project: "Project Name", placeholder_text: "Write your review here...",
+                alert_review_success: "Review added successfully!", alert_delete_confirm: "Are you sure you want to permanently delete this review?", alert_deleted: "Deleted.",
+                alert_admin_prompt: "Enter administrator secret key:", alert_admin_success: "Admin mode activated! You can now delete reviews.", alert_admin_fail: "Incorrect password!"
+            }
+        };
+
+        let currentLang = 'kk'; // Бастапқы тіл: Қазақша
+
+        // ТІЛДІ АУЫСТЫРУ ФУНКЦИЯСЫ
+        function switchLang(lang) {
+            currentLang = lang;
+            
+            // Белсенді батырма стилін ауыстыру
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(lang)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Мәтіндерді жаңарту
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                const key = element.getAttribute('data-lang');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Формадағы Placeholder-лерді ауыстыру
+            if(document.getElementById('reviewerName')) {
+                document.getElementById('reviewerName').placeholder = translations[lang]['placeholder_name'];
+                document.getElementById('reviewerProject').placeholder = translations[lang]['placeholder_project'];
+                document.getElementById('reviewerText').placeholder = translations[lang]['placeholder_text'];
+            }
+        }
+
+    // 3. FIREBASE КОНФИГУРАЦИЯСЫ
+    const firebaseConfig = {
+        apiKey: "AIzaSyAdUSm1HzdeVah0YsEnODgvKOq-vaHQYrw",
+        authDomain: "my-portfolio-ec303.firebaseapp.com",
+        projectId: "my-portfolio-ec303",
+        storageBucket: "my-portfolio-ec303.firebasestorage.app",
+        messagingSenderId: "501279439183",
+        appId: "1:501279439183:web:20ed43ed265d9e26a6ed3a",
+        measurementId: "G-Z7CJMQBKBB"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    // 4. ЖОБАЛАРДЫ ЖҮКТЕУ (Жаңа функция)
+    function loadProjects() {
+        const container = document.getElementById('projects-container');
+        if (!container) return;
+
+        db.collection("projects").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+            container.innerHTML = ''; 
+            if (snapshot.empty) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;padding:40px 0">Жобалар әлі қосылмаған</p>';
+                return;
+            }
+            snapshot.forEach((doc) => {
+                const p = doc.data();
+                const bgStyle = p.image
+                    ? `background: url('${p.image}') center/cover;`
+                    : `background: linear-gradient(135deg, #131c2e, #0a3d2e);`;
+                container.innerHTML += `
+                    <div class="project-card">
+                        <div class="project-img" style="${bgStyle}">
+                            <span class="project-tag">${p.tag || 'WEB PROJECT'}</span>
+                        </div>
+                        <div class="project-info">
+                            <h3>${p.title}</h3>
+                            <p>${p.description}</p>
+                            <a href="${p.url || '#'}" target="_blank" class="project-btn">${translations[currentLang]['open_site']}</a>
+                        </div>
+                    </div>
+                `;
+            });
+        });
+    }
+
+        // 5. DOM ДАЙЫН БОЛҒАННАН КЕЙІН БАРЛЫҒЫН ІСКЕ ҚОСУ
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Айнымалыларды анықтау
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            const reviewForm = document.getElementById('addReviewForm');
+            const openBtn = document.getElementById('openReviewsBtn');
+            const closeBtn = document.getElementById('closeReviewsBtn');
+            const modal = document.getElementById('reviewsModal');
+
+            // Тілді қосу
+            switchLang('kk');
+
+            // Жобаларды жүктеу
+            loadProjects();
+
+            // Пікірлерді жүктеу
+            function loadLiveReviews() {
+                db.collection("reviews").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+                    reviewsContainer.innerHTML = '';
+                    if (snapshot.empty) {
+                        reviewsContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding: 20px;">Әлі пікірлер жоқ. Бірінші болыңыз!</p>';
+                        return;
+                    }
+                    snapshot.forEach((doc) => {
+                        const review = doc.data();
+                        const docId = doc.id;
+                        let starHTML = '';
+                        for (let i = 0; i < review.rating; i++) { starHTML += '<i class="fa-solid fa-star"></i>'; }
+
+                        const item = document.createElement('div');
+                        item.className = 'review-item';
+                        item.innerHTML = `
+                            <div class="review-header">
+                                <div>
+                                    <span class="client-name">${review.name}</span>
+                                    <br>
+                                    <span class="client-project">Жоба: ${review.project}</span>
+                                </div>
+                                <div class="stars">${starHTML}</div>
+                            </div>
+                            <p class="review-text">"${review.text}"</p>
+                            <button class="delete-review-btn" onclick="deleteReviewFromFirebase('${docId}')">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        `;
+                        reviewsContainer.appendChild(item);
+                    });
+                });
+            }
+
+            loadLiveReviews();
+
+            // Пікір жіберу
+            reviewForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('reviewerName').value.trim();
+                const project = document.getElementById('reviewerProject').value.trim();
+                const text = document.getElementById('reviewerText').value.trim();
+                const ratingInput = document.querySelector('input[name="rating"]:checked');
+                const rating = ratingInput ? parseInt(ratingInput.value) : 5;
+
+                if (!name || !project || !text) return;
+
+                db.collection("reviews").add({
+                    name: name,
+                    project: project,
+                    text: text,
+                    rating: rating,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    reviewForm.reset();
+                    alert(translations[currentLang]['alert_review_success']);
+                }).catch((err) => {
+                    console.error("Қате:", err);
+                    alert("Пікір жіберу кезінде қате болды. Қайталап көріңіз.");
+                });
+            });
+
+            // Пікір жою (admin)
+            window.deleteReviewFromFirebase = function(docId) {
+                if (confirm(translations[currentLang]['alert_delete_confirm'])) {
+                    db.collection("reviews").doc(docId).delete().then(() => {
+                        alert(translations[currentLang]['alert_deleted']);
+                    });
+                }
+            };
+
+            // Модальді терезе
+            openBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Суретті сығымдап Base64-ке айналдыру
+        function compressAndConvertToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        // Максимум 800px ен/биіктік
+                        const MAX = 800;
+                        let w = img.width, h = img.height;
+                        if (w > h && w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+                        else if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', 0.75));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Админ режимі (footer link)
+        window.activateAdminMode = function() {
+            openAdminPanel();
+        };
+
+        // ── ADMIN PANEL LOGIC ──
+        const ADMIN_PASSWORD = "RAGWE438"; // ← Паролыңды осында өзгерт
+
+        function openAdminPanel() {
+            document.getElementById('adminPanel').classList.add('open');
+            document.getElementById('adminOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('open');
+            document.getElementById('adminOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function showAdminToast(msg) {
+            const t = document.getElementById('adminToast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function renderAdminProjects() {
+            const list = document.getElementById('adminProjectList');
+            db.collection("projects").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+                list.innerHTML = '';
+                if (snapshot.empty) {
+                    list.innerHTML = '<p class="admin-empty-msg">Жоба жоқ</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const p = doc.data();
+                    const item = document.createElement('div');
+                    item.className = 'admin-project-item';
+                    item.innerHTML = `
+                        ${p.image
+                            ? `<img src="${p.image}" class="admin-project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">`
+                            : ''}
+                        <div class="admin-project-thumb-placeholder" ${p.image ? 'style="display:none"' : ''}>
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <div class="admin-project-info">
+                            <strong>${p.title}</strong>
+                            <span>${p.url || '—'}</span>
+                        </div>
+                        <button class="admin-delete-btn" onclick="adminDeleteProject('${doc.id}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    `;
+                    list.appendChild(item);
+                });
+            });
+        }
+
+        window.adminDeleteProject = function(docId) {
+            if (confirm("Бұл жобаны өшіруді растайсыз ба?")) {
+                db.collection("projects").doc(docId).delete().then(() => {
+                    showAdminToast("🗑 Жоба өшірілді");
+                });
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const floatBtn = document.getElementById('adminFloatBtn');
+            const overlay = document.getElementById('adminOverlay');
+            const panelClose = document.getElementById('adminPanelClose');
+            const loginBtn = document.getElementById('adminLoginBtn');
+            const passInput = document.getElementById('adminPasswordInput');
+            const errorMsg = document.getElementById('adminErrorMsg');
+            const addProjectBtn = document.getElementById('addProjectBtn');
+
+            floatBtn.addEventListener('click', openAdminPanel);
+            overlay.addEventListener('click', closeAdminPanel);
+            panelClose.addEventListener('click', closeAdminPanel);
+
+            // Enter басқанда кіру
+            passInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') loginBtn.click();
+            });
+
+            loginBtn.addEventListener('click', () => {
+                if (passInput.value === ADMIN_PASSWORD) {
+                    document.getElementById('adminLoginScreen').style.display = 'none';
+                    document.getElementById('adminDashboard').classList.add('visible');
+                    errorMsg.style.display = 'none';
+                    passInput.value = '';
+                    document.body.classList.add('admin-mode');
+                    renderAdminProjects();
+                } else {
+                    errorMsg.style.display = 'block';
+                    passInput.value = '';
+                    passInput.style.borderColor = '#ff4a4a';
+                    setTimeout(() => passInput.style.borderColor = '', 1500);
+                }
+            });
+
+            // Сурет таңдалғанда preview көрсету
+            const imageFileInput = document.getElementById('newProjectImageFile');
+            const imagePreview = document.getElementById('imagePreview');
+            const imageUploadArea = document.getElementById('imageUploadArea');
+
+            imageFileInput.addEventListener('change', () => {
+                const file = imageFileInput.files[0];
+                if (!file) return;
+                if (file.size > 5 * 1024 * 1024) {
+                    alert("Сурет өлшемі 5MB-тан аспауы керек!");
+                    imageFileInput.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Drag & drop
+            imageUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); imageUploadArea.classList.add('drag-over'); });
+            imageUploadArea.addEventListener('dragleave', () => imageUploadArea.classList.remove('drag-over'));
+            imageUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                imageUploadArea.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    imageFileInput.files = e.dataTransfer.files;
+                    imageFileInput.dispatchEvent(new Event('change'));
+                }
+            });
+
+            // Preview-ге басса қайтадан таңдауға болады
+            imagePreview.addEventListener('click', () => {
+                imagePreview.style.display = 'none';
+                imageUploadArea.style.display = 'flex';
+                imageFileInput.value = '';
+            });
+
+            addProjectBtn.addEventListener('click', async () => {
+                const title = document.getElementById('newProjectTitle').value.trim();
+                const desc = document.getElementById('newProjectDesc').value.trim();
+                const url = document.getElementById('newProjectUrl').value.trim();
+                const tag = document.getElementById('newProjectTag').value.trim() || 'WEB PROJECT';
+                const file = imageFileInput.files[0];
+
+                if (!title || !desc || !url) {
+                    alert("Атауы, сипаттамасы және сілтемесі міндетті!");
+                    return;
+                }
+
+                addProjectBtn.disabled = true;
+                addProjectBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Қосылуда...';
+
+                const progressBar = document.getElementById('uploadProgressBar');
+                const progressFill = document.getElementById('uploadProgressFill');
+                const progressText = document.getElementById('uploadProgressText');
+
+                try {
+                    let imageUrl = '';
+
+                    if (file) {
+                        progressBar.style.display = 'block';
+                        progressText.style.display = 'block';
+                        progressText.textContent = 'Сурет өңделуде...';
+                        progressFill.style.width = '30%';
+
+                        // Суретті сығымдап Base64-ке айналдыру
+                        imageUrl = await compressAndConvertToBase64(file);
+
+                        progressFill.style.width = '100%';
+                        progressText.textContent = 'Сақталуда...';
+                    }
+
+                    await db.collection("projects").add({
+                        title, description: desc, image: imageUrl, url, tag,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    progressBar.style.display = 'none';
+                    progressText.style.display = 'none';
+                    progressFill.style.width = '0%';
+
+                    // Формды тазарту
+                    document.getElementById('newProjectTitle').value = '';
+                    document.getElementById('newProjectDesc').value = '';
+                    document.getElementById('newProjectUrl').value = '';
+                    document.getElementById('newProjectTag').value = '';
+                    imageFileInput.value = '';
+                    imagePreview.style.display = 'none';
+                    imageUploadArea.style.display = 'flex';
+
+                    addProjectBtn.disabled = false;
+                    addProjectBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Жобаны қосу';
+                    showAdminToast("✓ Жоба сәтті қосылды!");
+
+                } catch (err) {
+                    console.error(err);
+                    progressBar.style.display = 'none';
+                    progressText.style.display = 'none';
+                    addProjectBtn.disabled = false;
+                    addProjectBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Жобаны қосу';
+                    alert("Қате: " + err.message);
+                }
+            });
+        });
+    </script>
+    <!-- ADMIN FLOAT BUTTON -->
+    <button class="admin-float-btn" id="adminFloatBtn" title="Admin Panel">
+        <i class="fa-solid fa-sliders"></i>
+    </button>
+
+    <!-- ADMIN PANEL OVERLAY -->
+    <div class="admin-panel-overlay" id="adminOverlay"></div>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-panel-header">
+            <h2><i class="fa-solid fa-shield-halved"></i> ADMIN PANEL</h2>
+            <p>Портфолио басқару тақтасы</p>
+            <button class="admin-close-btn" id="adminPanelClose">&times;</button>
+        </div>
+
+        <!-- LOGIN SCREEN -->
+        <div class="admin-login-screen" id="adminLoginScreen">
+            <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+            <h3>Кіру</h3>
+            <p>Өзгерістер енгізу үшін кіріңіз</p>
+            <input type="password" id="adminPasswordInput" class="admin-input" placeholder="Парольді енгізіңіз...">
+            <button class="admin-btn-main" id="adminLoginBtn">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Кіру
+            </button>
+            <p class="admin-error-msg" id="adminErrorMsg">Қате пароль!</p>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="admin-dashboard" id="adminDashboard">
+
+            <!-- ЖОБА ҚОС -->
+            <div class="admin-section">
+                <div class="admin-section-title"><i class="fa-solid fa-plus"></i> Жаңа жоба қосу</div>
+
+                <div class="admin-field">
+                    <div class="admin-field-label">Жоба атауы *</div>
+                    <input type="text" id="newProjectTitle" class="admin-input" placeholder="мысалы: Atlant Sport">
+                </div>
+                <div class="admin-field">
+                    <div class="admin-field-label">Сипаттамасы *</div>
+                    <textarea id="newProjectDesc" class="admin-input" rows="3" style="resize:none;" placeholder="Жоба туралы қысқаша..."></textarea>
+                </div>
+                <div class="admin-field">
+                    <div class="admin-field-label">Сурет (компьютерден таңдау)</div>
+                    <label class="image-upload-label" id="imageUploadLabel">
+                        <input type="file" id="newProjectImageFile" accept="image/*" style="display:none">
+                        <div class="image-upload-area" id="imageUploadArea">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Суретті таңдау үшін басыңыз</span>
+                            <small>JPG, PNG, WEBP • макс. 5MB</small>
+                        </div>
+                        <img id="imagePreview" class="image-preview-thumb" style="display:none" alt="preview">
+                    </label>
+                    <div class="upload-progress-bar" id="uploadProgressBar" style="display:none">
+                        <div class="upload-progress-fill" id="uploadProgressFill"></div>
+                    </div>
+                    <p class="upload-progress-text" id="uploadProgressText" style="display:none"></p>
+                </div>
+                <div class="admin-field">
+                    <div class="admin-field-label">Сайт сілтемесі *</div>
+                    <input type="url" id="newProjectUrl" class="admin-input" placeholder="https://...">
+                </div>
+                <div class="admin-field">
+                    <div class="admin-field-label">Тег (мысалы: WEB PROJECT)</div>
+                    <input type="text" id="newProjectTag" class="admin-input" placeholder="WEB PROJECT">
+                </div>
+
+                <button class="admin-add-btn" id="addProjectBtn">
+                    <i class="fa-solid fa-plus"></i> Жобаны қосу
+                </button>
+            </div>
+
+            <!-- ЖОБАЛАР ТІЗІМІ -->
+            <div class="admin-section">
+                <div class="admin-section-title"><i class="fa-solid fa-list"></i> Барлық жобалар</div>
+                <div class="admin-project-list" id="adminProjectList">
+                    <p class="admin-empty-msg">Жүктелуде...</p>
+                </div>
+            </div>
+
+        </div><!-- /dashboard -->
+    </div><!-- /admin-panel -->
+
+    <div class="admin-success-toast" id="adminToast">✓ Сәтті орындалды!</div>
+
+</body>
+</html>
